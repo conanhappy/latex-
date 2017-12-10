@@ -1,0 +1,53 @@
+
+\documentclass[11pt]{article}
+\usepackage{CJK}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+ 
+\floatname{algorithm}{Alorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+ 
+\begin{document}
+\begin{CJK*}{UTF8}{gkai}
+    \begin{algorithm}
+        \caption{INN Query based on double anchors}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require anonymous regional center coordinates $o$,query point coordinates, query content con  
+            \Ensure the first $k$ interest points in $W_{n}$ 
+            \Procedure {MergerSort}{$Array, left, right$}
+                \State build top heap $W_{n}$ according to interest point $P_{i}$ and anonymous central coordinate
+                \State $W_{n}\gets Null;$  $\gamma\gets\infty;$ $\tau\gets 0;$ $i\gets 0$  $//$Initializing top heap
+                \State $//$Initiating $K$ interest point queries to SP
+                \While{$[\gamma+dist(o, q')]>\tau$}
+                \For {each $p$}
+                \State $i$++; $W_{n}\gets p$; $\tau\gets dist(q',p)$;
+                \If {$dist(o, p)< \gamma$}
+                \State $\gamma\gets dist(o, p)$
+                \EndIf
+                \EndFor
+                \EndWhile
+                \If{$i<k$}
+                \For {further each $p$}
+                \State $i$++; $W_{n}\gets p$; $\tau\gets dist(q',p)$;
+                \EndFor
+                \EndIf
+                \State calculate $s$
+                \State $\delta\gets 0$
+                \State $//$INN query with $s$ as query point is initiated to SP
+                \While {$\delta$ $<$ $dist(s$, $p_{k}$)$}$
+                \State $//$Search the POIs until the search radius is equal $dist(s$, $p_{k}$)
+                \For {further each $p$}
+                \State $W_{n}\gets p;$ $\delta\gets dist(s, p);$
+                \EndFor
+                \EndWhile            
+                \State \Return{$W_{k}$}//Returns the first $k$ interest points in $W_{k}$
+            \EndProcedure
+           
+                    \end{algorithmic}
+    \end{algorithm}
+\end{CJK*}
+\end{document}
